@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1256 810" role="img" aria-labelledby="title description" preserveAspectRatio="xMidYMid meet">
+  <title id="title">OnlineOrder application architecture</title>
+  <desc id="description">Point-to-point architecture diagram connecting the user to controllers, services, repositories, PostgreSQL, and Spring Security configuration.</desc>
+
+  <defs>
+    <marker id="arrow" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto" markerUnits="userSpaceOnUse">
+      <path d="M 0 0 L 11 5.5 L 0 11 Z" fill="#343a46"/>
+    </marker>
+    <style>
+      .frame { fill: #ffffff; stroke: #171b22; stroke-width: 3; }
+      .node { fill: #ffffff; stroke: #7b818a; stroke-width: 1.6; rx: 4; }
+      .node-header { fill: #fafafa; stroke: #7b818a; stroke-width: 1.6; rx: 4; }
+      .label { fill: #303641; font: 16px Arial, Helvetica, sans-serif; text-anchor: middle; dominant-baseline: middle; }
+      .header-label { fill: #303641; font: 17px Arial, Helvetica, sans-serif; text-anchor: middle; dominant-baseline: middle; }
+      .edge { fill: none; stroke: #343a46; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; marker-end: url(#arrow); vector-effect: non-scaling-stroke; }
+      .bus { fill: none; stroke: #59606b; stroke-width: 2.6; stroke-linecap: round; stroke-linejoin: round; vector-effect: non-scaling-stroke; }
+      .junction { fill: #343a46; }
+    </style>
+  </defs>
+
+  <rect class="frame" x="1.5" y="1.5" width="1253" height="807"/>
+
+  <!-- User fan-out -->
+  <path class="bus" d="M 117 313 H 175 M 175 201 V 428"/>
+  <path class="edge" d="M 175 201 H 230"/>
+  <path class="edge" d="M 175 314 H 230"/>
+  <path class="edge" d="M 175 428 H 230"/>
+  <circle class="junction" cx="175" cy="313" r="3"/>
+
+  <!-- Controller to service -->
+  <path class="edge" d="M 430 201 L 529 174"/>
+  <path class="edge" d="M 430 201 L 529 268"/>
+  <path class="edge" d="M 430 314 L 529 361"/>
+  <path class="edge" d="M 430 314 L 529 456"/>
+  <path class="edge" d="M 430 428 L 529 456"/>
+
+  <!-- Service to repository -->
+  <path class="edge" d="M 729 174 L 826 142"/>
+  <path class="edge" d="M 729 174 L 826 227"/>
+  <path class="edge" d="M 729 268 L 826 227"/>
+  <path class="edge" d="M 729 361 L 826 227"/>
+  <path class="edge" d="M 729 361 L 826 313"/>
+  <path class="edge" d="M 729 361 L 826 398"/>
+  <path class="edge" d="M 729 456 L 826 398"/>
+  <path class="edge" d="M 729 456 L 826 483"/>
+
+  <!-- Repository bus to database -->
+  <path class="bus" d="M 1026 142 H 1080 M 1026 227 H 1080 M 1026 313 H 1080 M 1026 398 H 1080 M 1026 483 H 1080 M 1080 142 V 483"/>
+  <path class="edge" d="M 1080 313 H 1138"/>
+  <circle class="junction" cx="1080" cy="313" r="3"/>
+
+  <!-- Customer service to security dependencies -->
+  <path class="edge" d="M 629 484 V 568"/>
+  <path class="edge" d="M 629 484 V 526 H 898 V 568"/>
+
+  <!-- Security components to AppConfig -->
+  <path class="edge" d="M 330 626 V 683 H 529"/>
+  <path class="edge" d="M 629 626 V 654"/>
+  <path class="edge" d="M 898 626 V 683 H 729"/>
+
+  <!-- Application root -->
+  <rect class="node-header" x="10%" y="30" width="80%" height="58"/>
+  <text class="header-label" x="50%" y="59">OnlineOrderApplication</text>
+
+  <!-- User -->
+  <g aria-label="User">
+    <circle cx="75" cy="313" r="42" fill="#eef2ff" stroke="#4f46e5" stroke-width="2"/>
+    <circle cx="75" cy="298" r="12" fill="#4f46e5"/>
+    <path d="M 48 340 C 51 322 61 313 75 313 C 89 313 99 322 102 340 Z" fill="#4f46e5"/>
+  </g>
+
+  <!-- Controllers -->
+  <rect class="node" x="230" y="172" width="200" height="58"/>
+  <text class="label" x="330" y="201">MenuController</text>
+  <rect class="node" x="230" y="285" width="200" height="58"/>
+  <text class="label" x="330" y="314">CartController</text>
+  <rect class="node" x="230" y="399" width="200" height="58"/>
+  <text class="label" x="330" y="428">CustomerController</text>
+
+  <!-- Services -->
+  <rect class="node" x="529" y="145" width="200" height="58"/>
+  <text class="label" x="629" y="174">RestaurantService</text>
+  <rect class="node" x="529" y="239" width="200" height="58"/>
+  <text class="label" x="629" y="268">MenuItemService</text>
+  <rect class="node" x="529" y="332" width="200" height="58"/>
+  <text class="label" x="629" y="361">CartService</text>
+  <rect class="node" x="529" y="427" width="200" height="58"/>
+  <text class="label" x="629" y="456">CustomerService</text>
+
+  <!-- Repositories -->
+  <rect class="node" x="826" y="114" width="200" height="56"/>
+  <text class="label" x="926" y="142">RestaurantRepository</text>
+  <rect class="node" x="826" y="199" width="200" height="56"/>
+  <text class="label" x="926" y="227">MenuItemRepository</text>
+  <rect class="node" x="826" y="285" width="200" height="56"/>
+  <text class="label" x="926" y="313">OrderItemRepository</text>
+  <rect class="node" x="826" y="370" width="200" height="56"/>
+  <text class="label" x="926" y="398">CartRepository</text>
+  <rect class="node" x="826" y="455" width="200" height="56"/>
+  <text class="label" x="926" y="483">CustomerRepository</text>
+
+  <!-- Database -->
+  <path d="M 1138 291 V 339 C 1138 345 1156.8 350 1180 350 C 1203.2 350 1222 345 1222 339 V 291" fill="#ffffff" stroke="#7b818a" stroke-width="1.6"/>
+  <ellipse cx="1180" cy="291" rx="42" ry="10" fill="#ffffff" stroke="#7b818a" stroke-width="1.6"/>
+  <path d="M 1138 339 C 1138 345 1156.8 350 1180 350 C 1203.2 350 1222 345 1222 339" fill="none" stroke="#7b818a" stroke-width="1.6"/>
+  <text class="label" x="1180" y="321">Database</text>
+
+  <!-- Security and configuration -->
+  <rect class="node" x="230" y="568" width="200" height="58"/>
+  <text class="label" x="330" y="597">SecurityFilterChain</text>
+  <rect class="node" x="529" y="568" width="200" height="58"/>
+  <text class="label" x="629" y="597">UserDetailsManager</text>
+  <rect class="node" x="798" y="568" width="200" height="58"/>
+  <text class="label" x="898" y="597">PasswordEncoder</text>
+  <rect class="node" x="529" y="654" width="200" height="58"/>
+  <text class="label" x="629" y="683">AppConfig</text>
+  <rect class="node" x="529" y="740" width="200" height="56"/>
+  <text class="label" x="629" y="768">DevRunner</text>
+</svg>
