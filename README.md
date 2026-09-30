@@ -142,7 +142,3 @@ Build the Docker image. The Dockerfile copies this JAR, so run `./gradlew bootJa
 ```bash
 docker build -t onlineorder:latest .
 ```
-
-## Current Scope
-
-Checkout clears the active cart. Payment processing, order history, and delivery tracking are not included.
