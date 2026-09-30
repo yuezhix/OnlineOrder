@@ -58,6 +58,25 @@ Restaurant data and cart responses are cached for 60 seconds. Cart writes clear 
 | `POST` | `/cart` | Authenticated | Add a menu item to the cart |
 | `POST` | `/cart/checkout` | Authenticated | Clear the current cart |
 
+JSON fields use snake_case. Request body for `POST /signup`:
+
+```json
+{ "email": "foo@mail.com", "password": "123456", "first_name": "Foo", "last_name": "Bar" }
+```
+
+Request body for `POST /cart`:
+
+```json
+{ "menu_id": 1 }
+```
+
+`/login` uses Spring Security form login, not JSON. Send `username` (the email) and `password` as `application/x-www-form-urlencoded`. On success, the session cookie is returned with status 200.
+
+```bash
+curl -i -c cookies.txt -X POST http://localhost:8080/login \
+  -d "username=foo@mail.com" -d "password=123456"
+```
+
 ## Run Locally
 
 Requirements:
@@ -79,7 +98,17 @@ Start the application:
 
 Open [http://localhost:8080](http://localhost:8080).
 
-### Configuration
+To create a demo account (`foo@mail.com` / `123456`) at startup, run with the `dev` profile:
+
+```bash
+SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
+```
+
+The demo account is skipped if it already exists.
+
+## Configuration
+
+Database settings are read from environment variables:
 
 | Variable | Default |
 |---|---|
@@ -91,19 +120,12 @@ Open [http://localhost:8080](http://localhost:8080).
 
 `database-init.sql` creates the schema and sample restaurant data. Set `INIT_DB=never` when the database should not be recreated at startup.
 
-To create a demo account (`foo@mail.com` / `123456`) at startup, run with the `dev` profile:
-
-```bash
-SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
-```
-
-The demo account is skipped if it already exists.
-
 ## Test and Build
 
-Run the tests:
+Run the tests (PostgreSQL must be running, because the application context test connects to the database):
 
 ```bash
+docker compose up -d db
 ./gradlew test
 ```
 
@@ -115,7 +137,7 @@ Build the executable JAR:
 
 The JAR is written to `build/libs/OnlineOrder-0.0.1-SNAPSHOT.jar`.
 
-Build the Docker image:
+Build the Docker image. The Dockerfile copies this JAR, so run `./gradlew bootJar` first:
 
 ```bash
 docker build -t onlineorder:latest .
