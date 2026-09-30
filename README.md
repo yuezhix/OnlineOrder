@@ -91,6 +91,14 @@ Open [http://localhost:8080](http://localhost:8080).
 
 `database-init.sql` creates the schema and sample restaurant data. Set `INIT_DB=never` when the database should not be recreated at startup.
 
+To create a demo account (`foo@mail.com` / `123456`) at startup, run with the `dev` profile:
+
+```bash
+SPRING_PROFILES_ACTIVE=dev ./gradlew bootRun
+```
+
+The demo account is skipped if it already exists.
+
 ## Test and Build
 
 Run the tests:
